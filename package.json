@@ -1,0 +1,31 @@
+{
+  "name": "e-commerce chat server",
+  "version": "1.0.0",
+  "description": "This project demonstrates how to build an AI-driven e-commerce chat assistant that can handle customer queries and take autonomous, multi-step actions in real time.",
+  "main": "index.ts",
+  "scripts": {
+    "start": "nodemon --exec ts-node index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "chat",
+    "e-commerce",
+    "ai",
+    "chatbot",
+    "conversational ai",
+    "agent"
+  ],
+  "author": "Marsiya Issah",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^24.3.0",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0"
+  }
+}
