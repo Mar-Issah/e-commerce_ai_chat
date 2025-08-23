@@ -1,38 +1,35 @@
 {
-  "name": "e-commerce chat server",
+  "name": "e-commerce_chat_be",
   "version": "1.0.0",
   "description": "This project demonstrates how to build an AI-driven e-commerce chat assistant that can handle customer queries and take autonomous, multi-step actions in real time.",
-  "main": "index.ts",
+  "main": "dist/server.js",
   "scripts": {
-    "dev": "nodemon --exec ts-node index.ts",
-    "seed": "ts-node seed-db.ts"
+    "dev": "nodemon src/server.ts",
+    "seed": "npx ts-node src/seed-database.ts"
   },
   "keywords": [
-    "chat",
     "e-commerce",
+    "chat",
     "ai",
-    "chatbot",
-    "conversational ai",
-    "agent"
+    "langgraph",
+    "typescript",
+    "nodejs",
+    "mongodb"
   ],
-  "author": "Marsiya Issah",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/node": "^24.3.0",
-    "nodemon": "^3.1.10",
-    "ts-node": "^10.9.2",
-    "@types/cors": "^2.8.19",
-    "typescript": "^5.9.2",
-    "@types/express": "^5.0.3"
-  },
+  "author": "Mar-Issah",
+  "license": "MIT",
   "dependencies": {
-    "@langchain/anthropic": "^0.3.26",
-    "@langchain/core": "^0.3.72",
-    "@langchain/langgraph-checkpoint-mongodb": "^0.1.0",
     "cors": "^2.8.5",
-    "dotenv": "^17.2.1",
-    "express": "^5.1.0",
-    "mongodb": "^6.18.0",
-    "zod": "^3.25.76"
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "mongodb": "^6.3.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.10.5",
+    "nodemon": "^3.0.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   }
 }
