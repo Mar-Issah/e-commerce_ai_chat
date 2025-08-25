@@ -1,0 +1,1047 @@
+[
+  {
+    "item_id": "CL001",
+    "item_name": "Classic Cotton T-Shirt",
+    "item_description": "Premium 100% cotton crew neck t-shirt with a comfortable fit and durable construction. Perfect for everyday wear.",
+    "brand": "Nike",
+    "manufacturer_address": {
+      "street": "123 Fashion Ave",
+      "city": "New York",
+      "state": "NY",
+      "postal_code": "10001",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 29.99,
+      "sale_price": 19.99
+    },
+    "categories": ["T-Shirts", "Casual", "Cotton"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-15",
+        "rating": 4.5,
+        "comment": "Great quality fabric, fits perfectly!"
+      },
+      {
+        "review_date": "2024-01-20",
+        "rating": 4.0,
+        "comment": "Good value for money, washes well"
+      }
+    ],
+    "notes": "Available in sizes S-XXL, multiple colors"
+  },
+  {
+    "item_id": "CL002",
+    "item_name": "Slim Fit Jeans",
+    "item_description": "Modern slim fit jeans with stretch denim for maximum comfort and mobility. Features a classic 5-pocket design.",
+    "brand": "Levi's",
+    "manufacturer_address": {
+      "street": "456 Denim Street",
+      "city": "Los Angeles",
+      "state": "CA",
+      "postal_code": "90210",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 89.99,
+      "sale_price": 69.99
+    },
+    "categories": ["Jeans", "Denim", "Slim Fit"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-10",
+        "rating": 4.8,
+        "comment": "Perfect fit and very comfortable!"
+      }
+    ],
+    "notes": "Available in various washes, sizes 28-36"
+  },
+  {
+    "item_id": "CL003",
+    "item_name": "Wool Blend Sweater",
+    "item_description": "Soft wool blend sweater perfect for cooler weather. Features a ribbed texture and comfortable fit.",
+    "brand": "Ralph Lauren",
+    "manufacturer_address": {
+      "street": "789 Knit Lane",
+      "city": "Portland",
+      "state": "OR",
+      "postal_code": "97201",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 79.99,
+      "sale_price": 59.99
+    },
+    "categories": ["Sweaters", "Wool", "Winter"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-05",
+        "rating": 4.2,
+        "comment": "Warm and cozy, great for winter"
+      }
+    ],
+    "notes": "Hand wash recommended, available in S-XL"
+  },
+  {
+    "item_id": "CL004",
+    "item_name": "Leather Jacket",
+    "item_description": "Classic leather motorcycle jacket with quilted lining and multiple pockets. Made from genuine leather.",
+    "brand": "Schott NYC",
+    "manufacturer_address": {
+      "street": "321 Leather Road",
+      "city": "Chicago",
+      "state": "IL",
+      "postal_code": "60601",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 299.99,
+      "sale_price": 249.99
+    },
+    "categories": ["Jackets", "Leather", "Motorcycle"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-12",
+        "rating": 4.9,
+        "comment": "Excellent quality leather, perfect fit"
+      }
+    ],
+    "notes": "Genuine leather, sizes M-XXL"
+  },
+  {
+    "item_id": "CL005",
+    "item_name": "Summer Dress",
+    "item_description": "Lightweight floral summer dress with adjustable straps and flowy silhouette. Perfect for warm weather occasions.",
+    "brand": "Zara",
+    "manufacturer_address": {
+      "street": "654 Floral Way",
+      "city": "Miami",
+      "state": "FL",
+      "postal_code": "33101",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 59.99,
+      "sale_price": 44.99
+    },
+    "categories": ["Dresses", "Summer", "Floral"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-18",
+        "rating": 4.6,
+        "comment": "Beautiful pattern, very comfortable"
+      }
+    ],
+    "notes": "Machine washable, sizes XS-L"
+  },
+  {
+    "item_id": "CL006",
+    "item_name": "Running Shoes",
+    "item_description": "Lightweight running shoes with cushioned sole and breathable mesh upper. Designed for maximum comfort during workouts.",
+    "brand": "Adidas",
+    "manufacturer_address": {
+      "street": "987 Athletic Blvd",
+      "city": "Austin",
+      "state": "TX",
+      "postal_code": "73301",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 129.99,
+      "sale_price": 99.99
+    },
+    "categories": ["Shoes", "Running", "Athletic"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-14",
+        "rating": 4.7,
+        "comment": "Great for long distance running"
+      }
+    ],
+    "notes": "Available in sizes 7-12, multiple colors"
+  },
+  {
+    "item_id": "CL007",
+    "item_name": "Business Shirt",
+    "item_description": "Professional business shirt made from wrinkle-resistant cotton. Features a classic collar and button-down design.",
+    "brand": "Brooks Brothers",
+    "manufacturer_address": {
+      "street": "147 Business Circle",
+      "city": "Boston",
+      "state": "MA",
+      "postal_code": "02101",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 69.99,
+      "sale_price": 54.99
+    },
+    "categories": ["Shirts", "Business", "Professional"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-16",
+        "rating": 4.4,
+        "comment": "Perfect for office wear, doesn't wrinkle"
+      }
+    ],
+    "notes": "Iron-free, sizes S-XXL"
+  },
+  {
+    "item_id": "CL008",
+    "item_name": "Hooded Sweatshirt",
+    "item_description": "Comfortable hooded sweatshirt with kangaroo pocket and drawstring hood. Made from soft cotton blend fabric.",
+    "brand": "Champion",
+    "manufacturer_address": {
+      "street": "258 Comfort Street",
+      "city": "Seattle",
+      "state": "WA",
+      "postal_code": "98101",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 49.99,
+      "sale_price": 39.99
+    },
+    "categories": ["Hoodies", "Casual", "Comfort"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-11",
+        "rating": 4.3,
+        "comment": "Very comfortable and warm"
+      }
+    ],
+    "notes": "Machine washable, sizes S-XXL"
+  },
+  {
+    "item_id": "CL009",
+    "item_name": "Formal Pants",
+    "item_description": "Classic formal pants with pleated front and side pockets. Perfect for business meetings and formal occasions.",
+    "brand": "Hugo Boss",
+    "manufacturer_address": {
+      "street": "369 Formal Lane",
+      "city": "Washington",
+      "state": "DC",
+      "postal_code": "20001",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 89.99,
+      "sale_price": 69.99
+    },
+    "categories": ["Pants", "Formal", "Business"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-13",
+        "rating": 4.5,
+        "comment": "Perfect fit and professional look"
+      }
+    ],
+    "notes": "Dry clean recommended, sizes 30-40"
+  },
+  {
+    "item_id": "CL010",
+    "item_name": "Winter Coat",
+    "item_description": "Heavy-duty winter coat with insulated lining and waterproof exterior. Features multiple pockets and adjustable hood.",
+    "brand": "The North Face",
+    "manufacturer_address": {
+      "street": "741 Winter Road",
+      "city": "Minneapolis",
+      "state": "MN",
+      "postal_code": "55401",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 199.99,
+      "sale_price": 159.99
+    },
+    "categories": ["Coats", "Winter", "Waterproof"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-09",
+        "rating": 4.8,
+        "comment": "Keeps me warm in sub-zero temperatures"
+      }
+    ],
+    "notes": "Waterproof, sizes S-XXL"
+  },
+  {
+    "item_id": "CL011",
+    "item_name": "Polo Shirt",
+    "item_description": "Classic polo shirt with embroidered logo and breathable pique fabric. Perfect for casual and semi-formal occasions.",
+    "brand": "Lacoste",
+    "manufacturer_address": {
+      "street": "852 Polo Drive",
+      "city": "Atlanta",
+      "state": "GA",
+      "postal_code": "30301",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 39.99,
+      "sale_price": 29.99
+    },
+    "categories": ["Polo Shirts", "Casual", "Semi-formal"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-17",
+        "rating": 4.2,
+        "comment": "Good quality fabric, nice fit"
+      }
+    ],
+    "notes": "Machine washable, sizes S-XXL"
+  },
+  {
+    "item_id": "CL012",
+    "item_name": "Cargo Shorts",
+    "item_description": "Comfortable cargo shorts with multiple utility pockets and adjustable waistband. Made from durable cotton canvas.",
+    "brand": "Dickies",
+    "manufacturer_address": {
+      "street": "963 Utility Way",
+      "city": "Phoenix",
+      "state": "AZ",
+      "postal_code": "85001",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 44.99,
+      "sale_price": 34.99
+    },
+    "categories": ["Shorts", "Cargo", "Casual"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-19",
+        "rating": 4.1,
+        "comment": "Lots of pockets, very practical"
+      }
+    ],
+    "notes": "Available in sizes 30-40, multiple colors"
+  },
+  {
+    "item_id": "CL013",
+    "item_name": "Silk Blouse",
+    "item_description": "Elegant silk blouse with a flattering cut and delicate texture. Perfect for professional and evening wear.",
+    "brand": "Equipment",
+    "manufacturer_address": {
+      "street": "159 Silk Street",
+      "city": "San Francisco",
+      "state": "CA",
+      "postal_code": "94101",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 119.99,
+      "sale_price": 89.99
+    },
+    "categories": ["Blouses", "Silk", "Elegant"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-08",
+        "rating": 4.6,
+        "comment": "Beautiful fabric, elegant design"
+      }
+    ],
+    "notes": "Dry clean only, sizes XS-L"
+  },
+  {
+    "item_id": "CL014",
+    "item_name": "Denim Jacket",
+    "item_description": "Classic denim jacket with vintage wash and comfortable fit. Features chest pockets and adjustable waist.",
+    "brand": "Levi's",
+    "manufacturer_address": {
+      "street": "357 Heritage Road",
+      "city": "Nashville",
+      "state": "TN",
+      "postal_code": "37201",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 79.99,
+      "sale_price": 59.99
+    },
+    "categories": ["Jackets", "Denim", "Casual"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-15",
+        "rating": 4.4,
+        "comment": "Great vintage look, fits well"
+      }
+    ],
+    "notes": "Machine washable, sizes S-XXL"
+  },
+  {
+    "item_id": "CL015",
+    "item_name": "Athletic Shorts",
+    "item_description": "Performance athletic shorts with built-in liner and moisture-wicking fabric. Perfect for workouts and sports.",
+    "brand": "Under Armour",
+    "manufacturer_address": {
+      "street": "468 Performance Lane",
+      "city": "Denver",
+      "state": "CO",
+      "postal_code": "80201",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 34.99,
+      "sale_price": 24.99
+    },
+    "categories": ["Shorts", "Athletic", "Performance"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-12",
+        "rating": 4.3,
+        "comment": "Great for running and gym workouts"
+      }
+    ],
+    "notes": "Moisture-wicking, sizes S-XXL"
+  },
+  {
+    "item_id": "CL016",
+    "item_name": "Cashmere Scarf",
+    "item_description": "Luxurious cashmere scarf with soft texture and elegant design. Perfect accessory for cold weather.",
+    "brand": "Burberry",
+    "manufacturer_address": {
+      "street": "753 Luxury Ave",
+      "city": "Beverly Hills",
+      "state": "CA",
+      "postal_code": "90210",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 89.99,
+      "sale_price": 69.99
+    },
+    "categories": ["Scarves", "Cashmere", "Luxury"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-14",
+        "rating": 4.9,
+        "comment": "Incredibly soft and warm"
+      }
+    ],
+    "notes": "Hand wash only, one size fits all"
+  },
+  {
+    "item_id": "CL017",
+    "item_name": "Linen Shirt",
+    "item_description": "Breathable linen shirt perfect for summer weather. Features a relaxed fit and natural texture.",
+    "brand": "J.Crew",
+    "manufacturer_address": {
+      "street": "951 Summer Street",
+      "city": "Charleston",
+      "state": "SC",
+      "postal_code": "29401",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 54.99,
+      "sale_price": 39.99
+    },
+    "categories": ["Shirts", "Linen", "Summer"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-16",
+        "rating": 4.2,
+        "comment": "Very breathable, perfect for hot weather"
+      }
+    ],
+    "notes": "Machine washable, sizes S-XXL"
+  },
+  {
+    "item_id": "CL018",
+    "item_name": "Leather Belt",
+    "item_description": "Classic leather belt with brass buckle and durable construction. Perfect for casual and formal wear.",
+    "brand": "Allen Edmonds",
+    "manufacturer_address": {
+      "street": "264 Belt Road",
+      "city": "Dallas",
+      "state": "TX",
+      "postal_code": "75201",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 49.99,
+      "sale_price": 34.99
+    },
+    "categories": ["Belts", "Leather", "Accessories"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-18",
+        "rating": 4.5,
+        "comment": "Quality leather, sturdy buckle"
+      }
+    ],
+    "notes": "Available in sizes 30-44 inches"
+  },
+  {
+    "item_id": "CL019",
+    "item_name": "Knit Beanie",
+    "item_description": "Warm knit beanie made from soft acrylic yarn. Features a comfortable fit and classic ribbed design.",
+    "brand": "Carhartt",
+    "manufacturer_address": {
+      "street": "847 Knit Way",
+      "city": "Buffalo",
+      "state": "NY",
+      "postal_code": "14201",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 19.99,
+      "sale_price": 14.99
+    },
+    "categories": ["Hats", "Winter", "Knit"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-10",
+        "rating": 4.1,
+        "comment": "Warm and comfortable, good fit"
+      }
+    ],
+    "notes": "One size fits most, machine washable"
+  },
+  {
+    "item_id": "CL020",
+    "item_name": "Canvas Sneakers",
+    "item_description": "Classic canvas sneakers with rubber sole and comfortable fit. Perfect for casual everyday wear.",
+    "brand": "Converse",
+    "manufacturer_address": {
+      "street": "639 Canvas Blvd",
+      "city": "Portland",
+      "state": "OR",
+      "postal_code": "97201",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 39.99,
+      "sale_price": 29.99
+    },
+    "categories": ["Sneakers", "Canvas", "Casual"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-13",
+        "rating": 4.3,
+        "comment": "Comfortable and stylish, great value"
+      }
+    ],
+    "notes": "Available in sizes 6-12, multiple colors"
+  },
+  {
+    "item_id": "CL021",
+    "item_name": "Vintage Denim Vest",
+    "item_description": "Classic denim vest with distressed finish and multiple pockets. Perfect for layering over t-shirts or sweaters.",
+    "brand": "Wrangler",
+    "manufacturer_address": {
+      "street": "456 Vintage Lane",
+      "city": "Austin",
+      "state": "TX",
+      "postal_code": "73301",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 64.99,
+      "sale_price": 49.99
+    },
+    "categories": ["Vests", "Denim", "Vintage"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-22",
+        "rating": 4.4,
+        "comment": "Great vintage look, perfect fit"
+      }
+    ],
+    "notes": "Distressed finish, sizes S-XXL"
+  },
+  {
+    "item_id": "CL022",
+    "item_name": "Silk Pajama Set",
+    "item_description": "Luxurious silk pajama set with comfortable elastic waistband and matching top. Perfect for lounging and sleep.",
+    "brand": "PJ Salvage",
+    "manufacturer_address": {
+      "street": "789 Sleep Street",
+      "city": "Beverly Hills",
+      "state": "CA",
+      "postal_code": "90210",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 149.99,
+      "sale_price": 119.99
+    },
+    "categories": ["Pajamas", "Silk", "Loungewear"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-23",
+        "rating": 4.8,
+        "comment": "Incredibly soft and comfortable"
+      }
+    ],
+    "notes": "Dry clean only, sizes XS-L"
+  },
+  {
+    "item_id": "CL023",
+    "item_name": "Performance Leggings",
+    "item_description": "High-performance athletic leggings with compression fit and moisture-wicking fabric. Perfect for yoga and workouts.",
+    "brand": "Lululemon",
+    "manufacturer_address": {
+      "street": "321 Active Way",
+      "city": "Denver",
+      "state": "CO",
+      "postal_code": "80201",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 79.99,
+      "sale_price": 59.99
+    },
+    "categories": ["Leggings", "Athletic", "Performance"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-24",
+        "rating": 4.6,
+        "comment": "Great compression and very comfortable"
+      }
+    ],
+    "notes": "Moisture-wicking, sizes XS-XXL"
+  },
+  {
+    "item_id": "CL024",
+    "item_name": "Wool Peacoat",
+    "item_description": "Classic wool peacoat with double-breasted design and brass buttons. Perfect for formal winter occasions.",
+    "brand": "J.Crew",
+    "manufacturer_address": {
+      "street": "654 Classic Road",
+      "city": "Boston",
+      "state": "MA",
+      "postal_code": "02101",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 249.99,
+      "sale_price": 199.99
+    },
+    "categories": ["Coats", "Wool", "Formal"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-25",
+        "rating": 4.9,
+        "comment": "Beautiful classic design, excellent quality"
+      }
+    ],
+    "notes": "Dry clean recommended, sizes S-XXL"
+  },
+  {
+    "item_id": "CL025",
+    "item_name": "Canvas Tote Bag",
+    "item_description": "Durable canvas tote bag with leather handles and spacious interior. Perfect for shopping and everyday use.",
+    "brand": "Longchamp",
+    "manufacturer_address": {
+      "street": "951 Eco Street",
+      "city": "Portland",
+      "state": "OR",
+      "postal_code": "97201",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 39.99,
+      "sale_price": 29.99
+    },
+    "categories": ["Bags", "Canvas", "Eco-friendly"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-26",
+        "rating": 4.3,
+        "comment": "Sturdy construction, great size"
+      }
+    ],
+    "notes": "Machine washable, one size"
+  },
+  {
+    "item_id": "CL026",
+    "item_name": "Linen Pants",
+    "item_description": "Comfortable linen pants with elastic waistband and relaxed fit. Perfect for summer and casual wear.",
+    "brand": "Eileen Fisher",
+    "manufacturer_address": {
+      "street": "147 Summer Lane",
+      "city": "Charleston",
+      "state": "SC",
+      "postal_code": "29401",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 69.99,
+      "sale_price": 54.99
+    },
+    "categories": ["Pants", "Linen", "Summer"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-27",
+        "rating": 4.2,
+        "comment": "Very breathable, perfect for hot weather"
+      }
+    ],
+    "notes": "Machine washable, sizes S-XXL"
+  },
+  {
+    "item_id": "CL027",
+    "item_name": "Leather Gloves",
+    "item_description": "Premium leather gloves with fleece lining and touchscreen compatibility. Perfect for cold weather and driving.",
+    "brand": "Isotoner",
+    "manufacturer_address": {
+      "street": "258 Leather Way",
+      "city": "Chicago",
+      "state": "IL",
+      "postal_code": "60601",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 59.99,
+      "sale_price": 44.99
+    },
+    "categories": ["Gloves", "Leather", "Winter"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-28",
+        "rating": 4.5,
+        "comment": "Great quality leather, very warm"
+      }
+    ],
+    "notes": "Touchscreen compatible, sizes S-L"
+  },
+  {
+    "item_id": "CL028",
+    "item_name": "Knit Cardigan",
+    "item_description": "Soft knit cardigan with button-up front and comfortable fit. Perfect for layering over blouses or t-shirts.",
+    "brand": "Banana Republic",
+    "manufacturer_address": {
+      "street": "369 Cozy Street",
+      "city": "Seattle",
+      "state": "WA",
+      "postal_code": "98101",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 89.99,
+      "sale_price": 69.99
+    },
+    "categories": ["Cardigans", "Knit", "Layering"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-29",
+        "rating": 4.4,
+        "comment": "Very soft and comfortable to wear"
+      }
+    ],
+    "notes": "Machine washable, sizes XS-XXL"
+  },
+  {
+    "item_id": "CL029",
+    "item_name": "Athletic Tank Top",
+    "item_description": "Performance athletic tank top with built-in bra support and moisture-wicking fabric. Perfect for high-intensity workouts.",
+    "brand": "Athleta",
+    "manufacturer_address": {
+      "street": "741 Performance Lane",
+      "city": "Miami",
+      "state": "FL",
+      "postal_code": "33101",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 49.99,
+      "sale_price": 39.99
+    },
+    "categories": ["Tank Tops", "Athletic", "Performance"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-30",
+        "rating": 4.7,
+        "comment": "Great support and very breathable"
+      }
+    ],
+    "notes": "Built-in bra, sizes XS-XXL"
+  },
+  {
+    "item_id": "CL030",
+    "item_name": "Wool Scarf",
+    "item_description": "Warm wool scarf with fringe ends and classic plaid pattern. Perfect for adding style and warmth to any winter outfit.",
+    "brand": "Pendleton",
+    "manufacturer_address": {
+      "street": "852 Winter Way",
+      "city": "Buffalo",
+      "state": "NY",
+      "postal_code": "14201",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 34.99,
+      "sale_price": 24.99
+    },
+    "categories": ["Scarves", "Wool", "Winter"],
+    "user_reviews": [
+      {
+        "review_date": "2024-01-31",
+        "rating": 4.3,
+        "comment": "Warm and stylish, great pattern"
+      }
+    ],
+    "notes": "Hand wash only, one size"
+  },
+  {
+    "item_id": "CL031",
+    "item_name": "Denim Shorts",
+    "item_description": "Classic denim shorts with comfortable fit and classic 5-pocket design. Perfect for casual summer wear.",
+    "brand": "Lee",
+    "manufacturer_address": {
+      "street": "963 Denim Street",
+      "city": "Los Angeles",
+      "state": "CA",
+      "postal_code": "90210",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 54.99,
+      "sale_price": 39.99
+    },
+    "categories": ["Shorts", "Denim", "Summer"],
+    "user_reviews": [
+      {
+        "review_date": "2024-02-01",
+        "rating": 4.2,
+        "comment": "Perfect fit, great summer shorts"
+      }
+    ],
+    "notes": "Available in various washes, sizes 24-34"
+  },
+  {
+    "item_id": "CL032",
+    "item_name": "Cotton Blouse",
+    "item_description": "Elegant cotton blouse with a flattering cut and button-up front. Perfect for professional and casual occasions.",
+    "brand": "Ann Taylor",
+    "manufacturer_address": {
+      "street": "159 Elegant Lane",
+      "city": "San Francisco",
+      "state": "CA",
+      "postal_code": "94101",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 74.99,
+      "sale_price": 59.99
+    },
+    "categories": ["Blouses", "Cotton", "Professional"],
+    "user_reviews": [
+      {
+        "review_date": "2024-02-02",
+        "rating": 4.5,
+        "comment": "Beautiful design, very flattering"
+      }
+    ],
+    "notes": "Machine washable, sizes XS-L"
+  },
+  {
+    "item_id": "CL033",
+    "item_name": "Fleece Jacket",
+    "item_description": "Warm fleece jacket with zipper front and multiple pockets. Perfect for outdoor activities and casual wear.",
+    "brand": "Patagonia",
+    "manufacturer_address": {
+      "street": "357 Outdoor Road",
+      "city": "Denver",
+      "state": "CO",
+      "postal_code": "80201",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 69.99,
+      "sale_price": 54.99
+    },
+    "categories": ["Jackets", "Fleece", "Outdoor"],
+    "user_reviews": [
+      {
+        "review_date": "2024-02-03",
+        "rating": 4.4,
+        "comment": "Very warm and comfortable"
+      }
+    ],
+    "notes": "Machine washable, sizes S-XXL"
+  },
+  {
+    "item_id": "CL034",
+    "item_name": "Silk Dress",
+    "item_description": "Elegant silk dress with a flattering silhouette and delicate texture. Perfect for special occasions and evening wear.",
+    "brand": "Reformation",
+    "manufacturer_address": {
+      "street": "468 Silk Street",
+      "city": "Beverly Hills",
+      "state": "CA",
+      "postal_code": "90210",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 189.99,
+      "sale_price": 149.99
+    },
+    "categories": ["Dresses", "Silk", "Evening"],
+    "user_reviews": [
+      {
+        "review_date": "2024-02-04",
+        "rating": 4.8,
+        "comment": "Stunning dress, perfect for special occasions"
+      }
+    ],
+    "notes": "Dry clean only, sizes XS-L"
+  },
+  {
+    "item_id": "CL035",
+    "item_name": "Canvas Backpack",
+    "item_description": "Durable canvas backpack with leather trim and multiple compartments. Perfect for work, school, and travel.",
+    "brand": "Herschel",
+    "manufacturer_address": {
+      "street": "753 Canvas Way",
+      "city": "Portland",
+      "state": "OR",
+      "postal_code": "97201",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 79.99,
+      "sale_price": 59.99
+    },
+    "categories": ["Backpacks", "Canvas", "Travel"],
+    "user_reviews": [
+      {
+        "review_date": "2024-02-05",
+        "rating": 4.6,
+        "comment": "Great quality, lots of storage space"
+      }
+    ],
+    "notes": "Water-resistant, one size"
+  },
+  {
+    "item_id": "CL036",
+    "item_name": "Wool Socks",
+    "item_description": "Warm wool socks with cushioned sole and comfortable fit. Perfect for cold weather and outdoor activities.",
+    "brand": "Smartwool",
+    "manufacturer_address": {
+      "street": "951 Warm Street",
+      "city": "Minneapolis",
+      "state": "MN",
+      "postal_code": "55401",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 19.99,
+      "sale_price": 14.99
+    },
+    "categories": ["Socks", "Wool", "Winter"],
+    "user_reviews": [
+      {
+        "review_date": "2024-02-06",
+        "rating": 4.3,
+        "comment": "Very warm and comfortable"
+      }
+    ],
+    "notes": "Machine washable, sizes S-L"
+  },
+  {
+    "item_id": "CL037",
+    "item_name": "Linen Blazer",
+    "item_description": "Lightweight linen blazer with a relaxed fit and natural texture. Perfect for summer business casual wear.",
+    "brand": "Theory",
+    "manufacturer_address": {
+      "street": "264 Summer Lane",
+      "city": "Charleston",
+      "state": "SC",
+      "postal_code": "29401",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 129.99,
+      "sale_price": 99.99
+    },
+    "categories": ["Blazers", "Linen", "Professional"],
+    "user_reviews": [
+      {
+        "review_date": "2024-02-07",
+        "rating": 4.4,
+        "comment": "Perfect for summer business wear"
+      }
+    ],
+    "notes": "Dry clean recommended, sizes S-XXL"
+  },
+  {
+    "item_id": "CL038",
+    "item_name": "Leather Wallet",
+    "item_description": "Premium leather wallet with multiple card slots and coin pocket. Perfect for everyday use and gifting.",
+    "brand": "Coach",
+    "manufacturer_address": {
+      "street": "847 Leather Road",
+      "city": "Dallas",
+      "state": "TX",
+      "postal_code": "75201",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 39.99,
+      "sale_price": 29.99
+    },
+    "categories": ["Wallets", "Leather", "Accessories"],
+    "user_reviews": [
+      {
+        "review_date": "2024-02-08",
+        "rating": 4.5,
+        "comment": "Great quality leather, perfect size"
+      }
+    ],
+    "notes": "Genuine leather, one size"
+  },
+  {
+    "item_id": "CL039",
+    "item_name": "Knit Sweater Vest",
+    "item_description": "Comfortable knit sweater vest with a classic design and comfortable fit. Perfect for layering over shirts.",
+    "brand": "Gap",
+    "manufacturer_address": {
+      "street": "639 Knit Street",
+      "city": "Seattle",
+      "state": "WA",
+      "postal_code": "98101",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 59.99,
+      "sale_price": 44.99
+    },
+    "categories": ["Vests", "Knit", "Layering"],
+    "user_reviews": [
+      {
+        "review_date": "2024-02-09",
+        "rating": 4.2,
+        "comment": "Very comfortable and versatile"
+      }
+    ],
+    "notes": "Machine washable, sizes S-XXL"
+  },
+  {
+    "item_id": "CL040",
+    "item_name": "Canvas Hat",
+    "item_description": "Classic canvas hat with adjustable strap and comfortable fit. Perfect for outdoor activities and casual wear.",
+    "brand": "New Era",
+    "manufacturer_address": {
+      "street": "951 Canvas Lane",
+      "city": "Portland",
+      "state": "OR",
+      "postal_code": "97201",
+      "country": "USA"
+    },
+    "prices": {
+      "full_price": 24.99,
+      "sale_price": 19.99
+    },
+    "categories": ["Hats", "Canvas", "Outdoor"],
+    "user_reviews": [
+      {
+        "review_date": "2024-02-10",
+        "rating": 4.1,
+        "comment": "Great fit, perfect for outdoor activities"
+      }
+    ],
+    "notes": "Adjustable strap, one size fits most"
+  }
+]

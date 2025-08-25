@@ -15,15 +15,12 @@ class Database {
     this.client = new MongoClient(process.env.MONGODB_URI as string);
   }
 
-  async connect(): Promise<MongoClient> {
+  async connect(): Promise<void> {
     try {
       await this.client.connect();
       this.db = this.client.db();
       //await this.db.command({ ping: 1 });
       console.log('✅ Successfully connected to MongoDB!');
-
-      // Returns a reference to the client to reuse later
-      return this.client;
     } catch (error) {
       console.error('❌ Error connecting to MongoDB:', error);
       throw error;
@@ -36,10 +33,7 @@ class Database {
     }
     return this.db;
   }
-  // Reuse this for other operations
-  getClient(): MongoClient {
-    return this.client;
-  }
+
   async close(): Promise<void> {
     await this.client.close();
   }

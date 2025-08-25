@@ -1,20 +1,35 @@
-import { ObjectId } from 'mongodb';
+import { z } from 'zod';
+// Import Zod for data schema validation and type safety
 
-// Since we are using MongoDB driver + TypeScript to connect to db, we are using TypeScript interfaces (or types) — to define the shape of documents
+// Define schema for Clothing item structure using Zod validation
+const itemSchema = z.object({
+  item_id: z.string(),
+  item_name: z.string(),
+  item_description: z.string(),
+  brand: z.string(),
+  manufacturer_address: z.object({
+    street: z.string(),
+    city: z.string(),
+    state: z.string(),
+    postal_code: z.string(),
+    country: z.string(),
+  }),
+  prices: z.object({
+    full_price: z.number(),
+    sale_price: z.number(),
+  }),
+  categories: z.array(z.string()),
+  user_reviews: z.array(
+    z.object({
+      review_date: z.string(),
+      rating: z.number(),
+      comment: z.string(),
+    })
+  ),
+  notes: z.string(),
+});
 
-//Combine with Zdd for runtime validation
-export interface IMessage {
-  _id?: ObjectId;
-  threadId: string;
-  message: string;
-  role: 'user' | 'assistant';
-  timestamp: Date;
-}
+// Create TypeScript type from Zod schema for type safety
+type Item = z.infer<typeof itemSchema>;
 
-export interface IThread {
-  _id?: ObjectId;
-  threadId: string;
-  createdAt: Date;
-  updatedAt: Date;
-  messageCount: number;
-}
+export { itemSchema, Item };
