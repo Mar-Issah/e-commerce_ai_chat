@@ -3,11 +3,19 @@ import { OpenAIEmbeddings } from '@langchain/openai';
 import { MongoDBAtlasVectorSearch } from '@langchain/mongodb';
 import 'dotenv/config';
 import { itemSchema, Item } from '../models/Message';
-import { MongoClient, Db } from 'mongodb';
+import { MongoClient } from 'mongodb';
 import sampleData from './sample-data.json';
+import { StructuredOutputParser } from '@langchain/core/output_parsers';
+import { z } from 'zod';
 
 const client = new MongoClient(process.env.MONGODB_URI as string); // create client instance
 const db = client.db('e-commerce_chat_db');
+
+const llm = new ChatOpenAI({
+  model: 'gpt-4o-mini',
+  temperature: 0.7,
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 // Function to create database and collection before seeding
 async function setupDatabaseAndCollection(): Promise<void> {
@@ -48,6 +56,24 @@ async function createVectorSearchIndex(): Promise<void> {
   } catch (e) {
     console.error('Failed to create vector search index:', e);
   }
+}
+
+async function generateSampleData(): Promise<Item[]> {
+  // Create parser that ensures AI output matches our item schema
+  const parser = StructuredOutputParser.fromZodSchema(z.array(itemSchema));
+
+  // Create detailed prompt instructing AI to generate furniture store data
+  const prompt = `You are a helpful assistant that generates clothing store item data. Generate 10 clothing store items. Each record should include the following fields: item_id, item_name, item_description, brand, manufacturer_address, prices, categories, user_reviews, notes. Ensure variety in the data and realistic values.
+
+  ${parser.getFormatInstructions()}`; // Add format instructions from parser
+
+  // Log progress to console
+  console.log('Generating Sample data...');
+
+  // Send prompt to AI and get response
+  const response = await llm.invoke(prompt);
+  // Parse AI response into structured array of Item objects
+  return parser.parse(response.content as string);
 }
 
 // Function to get sample data from JSON file
