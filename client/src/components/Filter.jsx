@@ -4,9 +4,9 @@ import './Filter.css';
 
 const Filter = ({ selectedCategory, onCategoryChange }) => {
   return (
-    <div className="filter-container">
-      <h3 className="filter-title">Categories</h3>
-      <div className="filter-options">
+    <div className='filter-container'>
+      <h3 className='filter-title'>Categories</h3>
+      <div className='filter-options'>
         {categories.map((category) => (
           <button
             key={category}

@@ -61,6 +61,7 @@ const ChatAssistant = ({ products }) => {
 
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
+      console.log('Error in chat:', error);
       const errorMessage = {
         id: Date.now() + 1,
         type: 'bot',
