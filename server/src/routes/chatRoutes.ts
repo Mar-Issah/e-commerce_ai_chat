@@ -3,6 +3,9 @@ import chatController from '../controllers/ChatController';
 
 const router = Router();
 
+// Get all items
+router.get('/items', chatController.getAllItems);
+
 // Start new conversation
 router.post('/chat', chatController.startConversation);
 

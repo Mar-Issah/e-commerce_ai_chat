@@ -1,18 +1,19 @@
-import { products } from '../data/products.js';
 
 // Simulate API delay
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+const apiUrl = import.meta.env.VITE_SERVER_URL;
 
 // Simulate MongoDB collection operations
 export const api = {
   // Get all products (simulates MongoDB find operation)
   async getAllProducts() {
-    await delay(300); // Simulate network delay
-    return { success: true, data: products };
+     const response = await fetch(`${apiUrl}/items`);
+    if (!response.ok) throw new Error("Failed to fetch products");
+    return await response.json();
   },
 
   // Search products by name or category
-  async searchProducts(query) {
+  async searchProducts(query, products) {
     await delay(200);
     const searchTerm = query.toLowerCase();
     const filteredProducts = products.filter(
@@ -25,51 +26,14 @@ export const api = {
   },
 
   // Filter products by category
-  async filterByCategory(category) {
-    await delay(200);
+  async filterByCategory(category, products) {
     if (category === 'All') {
-      return { success: true, data: products };
+      return products
     }
     const filteredProducts = products.filter((product) => product.categories.includes(category));
     return { success: true, data: filteredProducts };
   },
 
-  // Get product by ID
-  async getProductById(id) {
-    await delay(100);
-    const product = products.find((p) => p.item_id === id);
-    return { success: !!product, data: product };
-  },
-
-  // Get products by price range
-  async getProductsByPriceRange(min, max) {
-    await delay(200);
-    const filteredProducts = products.filter(
-      (product) => product.prices.sale_price >= min && product.prices.sale_price <= max
-    );
-    return { success: true, data: filteredProducts };
-  },
-
-  // Get products by brand
-  async getProductsByBrand(brand) {
-    await delay(200);
-    const filteredProducts = products.filter((product) => product.brand.toLowerCase() === brand.toLowerCase());
-    return { success: true, data: filteredProducts };
-  },
-
-  // Get all categories
-  async getCategories() {
-    await delay(100);
-    const allCategories = [...new Set(products.flatMap((p) => p.categories))];
-    return { success: true, data: allCategories };
-  },
-
-  // Get all brands
-  async getBrands() {
-    await delay(100);
-    const allBrands = [...new Set(products.map((p) => p.brand))];
-    return { success: true, data: allBrands };
-  },
 };
 
 // Chat API for product-related queries

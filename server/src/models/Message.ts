@@ -28,8 +28,7 @@ const itemSchema = z.object({
   ),
   notes: z.string(),
   // Add image fields
-  main_image: z.string().url().optional(),
-  additional_images: z.array(z.string().url()).optional(),
+  image: z.string().url().optional(),
 });
 
 // Create TypeScript type from Zod schema for type safety

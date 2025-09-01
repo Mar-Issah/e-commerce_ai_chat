@@ -1,7 +1,38 @@
 import { Request, Response } from 'express';
 import {callAgent} from '../services/agent'
+import database from '../config/database'
 
 export class ChatController {
+   async getAllItems(req: Request, res: Response): Promise<void> {
+    const db = database.getDb()
+    try {
+      const items = await db.collection("items")
+        .find(
+          {},
+          {
+            projection: {
+              _id: 0,
+              item_id: 1,
+              item_name: 1,
+              item_description: 1,
+              brand: 1,
+              manufacturer_address: 1,
+              prices: 1,
+              categories: 1,
+              user_reviews: 1,
+              notes: 1,
+              image: 1,
+            },
+          }
+        )
+        .toArray();
+      res.json(items);
+    } catch (error) {
+      console.error("Error fetching items:", error);
+      res.status(500).json({ error: "Internal server error" });
+    }
+  }
+
   // Start a new conversation
   async startConversation(req: Request, res: Response): Promise<void> {
     const { message } = req.body;

@@ -29,23 +29,25 @@ const Home = () => {
     try {
       setLoading(true);
       const response = await api.getAllProducts();
-      if (response.success) {
-        setProducts(response.data);
-        setFilteredProducts(response.data);
+      if (response) {
+        console.log(response)
+        setProducts(response);
+        setFilteredProducts(response);
       } else {
         setError('Failed to fetch products');
       }
     } catch (err) {
-      setError('Error loading products');
+      setError('Failed to fetch products');
       console.error('Error fetching products:', err);
     } finally {
       setLoading(false);
     }
   };
 
-  const filterProductsByCategory = async (category) => {
+  // When the user clicks on the category
+  const filterProductsByCategory = async (category, productsToSearch = products) => {
     try {
-      const response = await api.filterByCategory(category);
+      const response = await api.filterByCategory(category, productsToSearch);
       if (response.success) {
         setFilteredProducts(response.data);
       }
@@ -53,10 +55,10 @@ const Home = () => {
       console.error('Error filtering products:', err);
     }
   };
-
-  const handleSearch = async (query) => {
+// When the user enters the query
+  const handleSearch = async (query, productsToSearch = products) => {
     try {
-      const response = await api.searchProducts(query);
+      const response = await api.searchProducts(query, productsToSearch);
       if (response.success) {
         setFilteredProducts(response.data);
         setSelectedCategory('All'); // Reset category filter when searching
@@ -99,7 +101,7 @@ const Home = () => {
         <div className='content-wrapper'>
           {/* Sidebar with filters */}
           <aside className='sidebar'>
-            <Filter selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} />
+            <Filter selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} products ={products} />
           </aside>
 
           {/* Main product grid */}

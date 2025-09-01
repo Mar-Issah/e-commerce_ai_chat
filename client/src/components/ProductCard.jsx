@@ -36,9 +36,6 @@ const ProductCard = ({ product }) => {
           src={product.image}
           alt={product.item_name}
           className='product-image'
-          onError={(e) => {
-            e.target.src = 'https://via.placeholder.com/300x300?text=Product+Image';
-          }}
         />
         <div className='product-overlay'>
           <button className='add-to-cart-btn'>
