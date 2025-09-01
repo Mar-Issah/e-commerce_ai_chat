@@ -1,4 +1,4 @@
-import { OpenAIEmbeddings } from '@langchain/openai';
+import { OpenAIEmbeddings, ChatOpenAI } from '@langchain/openai';
 // Import MongoDB Atlas vector search for storing and searching embeddings
 import { MongoDBAtlasVectorSearch } from '@langchain/mongodb';
 import 'dotenv/config';
@@ -62,7 +62,7 @@ async function generateSampleData(): Promise<Item[]> {
   // Create parser that ensures AI output matches our item schema
   const parser = StructuredOutputParser.fromZodSchema(z.array(itemSchema));
 
-  // Create detailed prompt instructing AI to generate furniture store data
+  // Create detailed prompt instructing AI to generate clothing store data
   const prompt = `You are a helpful assistant that generates clothing store item data. Generate 10 clothing store items. Each record should include the following fields: item_id, item_name, item_description, brand, manufacturer_address, prices, categories, user_reviews, notes. Ensure variety in the data and realistic values.
 
   ${parser.getFormatInstructions()}`; // Add format instructions from parser
