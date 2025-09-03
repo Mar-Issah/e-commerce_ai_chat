@@ -1,242 +1,111 @@
 // Import required modules from LangChain ecosystem
-import { OpenAIEmbeddings, ChatOpenAI } from '@langchain/openai';
+import { ChatOpenAI } from '@langchain/openai';
 import { AIMessage, BaseMessage, HumanMessage } from '@langchain/core/messages'; // Message types for conversations
 import {
   ChatPromptTemplate, // For creating structured prompts with placeholders
   MessagesPlaceholder, // Placeholder for dynamic message history
 } from '@langchain/core/prompts';
 import { StateGraph, Annotation } from '@langchain/langgraph'; // State-based workflow orchestration and  Type annotations for state management
-import { tool } from '@langchain/core/tools'; // For creating custom tools/functions
 import { ToolNode } from '@langchain/langgraph/prebuilt'; // Pre-built node for executing tools
 import { MongoDBSaver } from '@langchain/langgraph-checkpoint-mongodb'; // For saving conversation state
-import { MongoDBAtlasVectorSearch } from '@langchain/mongodb'; // Vector search integration with MongoDB
-import { MongoClient } from 'mongodb'; // MongoDB database client
-import { z } from 'zod'; // Schema validation library
 import 'dotenv/config';
+import database from '../config/database';
+import { retryWithBackoff, itemLookupTool } from '../utils/helper';
 
-
-const client = new MongoClient(process.env.MONGODB_URI as string)
-
-
-// Utility function to handle API rate limits with exponential backoff
-async function retryWithBackoff<T>(
-  fn: () => Promise<T>,    // The function to retry (generic type T for return value)
-  maxRetries = 3    //  // Number of retry attempts allowed (default: 3)
-): Promise<T> {
-  // Loop through retry attempts
-  for (let attempt = 1; attempt <= maxRetries; attempt++) {
-    try {
-      return await fn()    //Function to retry
-    } catch (error: any) {
-      // Check if it's a rate limit error (HTTP 429) and we have retries left
-      if (error.status === 429 && attempt < maxRetries) {
-        // Calculate exponential backoff delay: 2^attempt seconds, max 30 seconds
-        const delay = Math.min(1000 * Math.pow(2, attempt), 30000)
-        console.log(`Rate limit hit. Retrying in ${delay/1000} seconds...`)
-        // Wait for the calculated delay before retrying
-        await new Promise(resolve => setTimeout(resolve, delay))
-        continue // Go to next iteration (retry)
-      }
-      throw error // If not rate limit or out of retries, throw the error
-    }
-  }
-  throw new Error("Max retries exceeded") // This should never be reached
-}
+//const client = new MongoClient(process.env.MONGODB_URI as string)
 
 // Main function that creates and runs the AI agent
 export async function callAgent(query: string, thread_id: string) {
   try {
-    // // Database configuration
-    // const dbName = "inventory_database"        // Name of the MongoDB database
-    const db = client.db("e-commerce_chat_db")              // Get database instance
-    const collection = db.collection("items") // Get the 'items' collection
+    // Get database instance and collections
+    const db = database.getDb();
+    const client = database.getClient();
+    // const db = client.db("e-commerce_chat_db")
+    const collection = db.collection('items');
 
     // Define the state structure for the agent workflow
     const GraphState = Annotation.Root({
       messages: Annotation<BaseMessage[]>({
-        // Reducer function: how to combine old and new messages
-        reducer: (x, y) => x.concat(y), // Simply concatenate old messages (x) with new messages (y)
+        // Reducer func: how to combine old and new mgs - Simply concat old mgs (x) with new messags (y)
+        reducer: (x, y) => x.concat(y),
       }),
-    })
-
-    // Create a custom tool for searching clothing inventory
-    const itemLookupTool = tool(
-      // The actual function that will be executed when tool is called
-      async ({ query, n = 10 }) => {
-        try {
-          console.log("Item lookup tool called with query:", query)
-
-          // Check if database has any data at all
-          const totalCount = await collection.countDocuments()
-          console.log(`Total documents in collection: ${totalCount}`)
-
-          // Early return if database is empty
-          if (totalCount === 0) {
-            console.log("Collection is empty")
-            return JSON.stringify({
-              error: "No items found in inventory",
-              message: "The inventory database appears to be empty",
-              count: 0
-            })
-          }
-
-          // Get sample documents for debugging purposes
-          const sampleDocs = await collection.find({}).limit(3).toArray()
-          console.log("Sample documents:", sampleDocs)
-
-          // Configuration for MongoDB Atlas Vector Search
-          const dbConfig = {
-            collection: collection,           // MongoDB collection to search
-            indexName: "vector_index",       // Name of the vector search index
-            textKey: "embedding_text",       // Field containing the text used for embeddings
-            embeddingKey: "embedding",       // Field containing the vector embeddings
-          }
-
-          // Create vector store instance for semantic search using Openai embeddings
-          const vectorStore = new MongoDBAtlasVectorSearch(
-            new OpenAIEmbeddings({
-              apiKey: process.env.OPENAI_API_KEY, // OPENAI API key from environment
-              model: "text-embedding-3-large",         // Gemini embedding model
-            }),
-            dbConfig
-          )
-
-          console.log("Performing vector search...")
-          // Perform semantic search using vector embeddings
-          const result = await vectorStore.similaritySearchWithScore(query, n)
-          console.log(`Vector search returned ${result.length} results`)
-
-          // If vector search returns no results, fall back to text search
-          if (result.length === 0) {
-            console.log("Vector search returned no results, trying text search...")
-            // MongoDB text search using regular expressions
-            const textResults = await collection.find({
-              $or: [ // OR condition - match any of these fields
-                { item_name: { $regex: query, $options: 'i' } },        // Case-insensitive search in item name
-                { item_description: { $regex: query, $options: 'i' } }, // Case-insensitive search in description
-                { categories: { $regex: query, $options: 'i' } },       // Case-insensitive search in categories
-                { embedding_text: { $regex: query, $options: 'i' } }    // Case-insensitive search in embedding text
-              ]
-            }).limit(n).toArray() // Limit results and convert to array
-
-            console.log(`Text search returned ${textResults.length} results`)
-            // Return text search results as JSON string
-            return JSON.stringify({
-              results: textResults,
-              searchType: "text",    // Indicate this was a text search
-              query: query,
-              count: textResults.length
-            })
-          }
-
-          // Return vector search results as JSON string
-          return JSON.stringify({
-            results: result,
-            searchType: "vector",   // Indicate this was a vector search
-            query: query,
-            count: result.length
-          })
-
-        } catch (error: any) {
-          // Log detailed error information for debugging
-          console.error("Error in item lookup:", error)
-          console.error("Error details:", {
-            message: error.message,
-            stack: error.stack,
-            name: error.name
-          })
-
-          // Return error information as JSON string
-          return JSON.stringify({
-            error: "Failed to search inventory",
-            details: error.message,
-            query: query
-          })
-        }
-      },
-      // Tool metadata and schema definition
-      {
-        name: "item_lookup",                                    // Tool name that the AI will reference
-        description: "Gathers clothing item details from the Inventory database", // Description for the AI
-        schema: z.object({                                      // Input validation schema
-          query: z.string().describe("The search query"),      // Required string parameter
-          n: z.number().optional().default(10)                 // Optional number parameter with default
-            .describe("Number of results to return"),
-        }),
-      }
-    )
+    });
 
     // Array of all available tools (just one in this case)
-    const tools = [itemLookupTool]
-    // Create a tool execution node for the workflow
-    const toolNode = new ToolNode<typeof GraphState.State>(tools)
+    const tools = [itemLookupTool];
+    //Create a tool execution node for the workflow
+    const toolNode = new ToolNode<typeof GraphState.State>(tools);
 
-    // Initialize the AI model (Openai)
+    // Initialize the AI model (Openai) and bind custom tools to the model
     const model = new ChatOpenAI({
-      model: "gpt-4o-mini",         //  Use Gemini 1.5 Flash model
-      temperature: 0,                    // Deterministic responses (no randomness)
-      maxRetries: 0,                     // Disable built-in retries (we handle our own)
+      model: 'gpt-4o-mini', //  Use Openai model
+      temperature: 0, // Deterministic responses (no randomness)
+      maxRetries: 0, // Disable built-in retries (we handle our own)
       apiKey: process.env.OPENAI_API_KEY, // OPENAI API key from environment
-    }).bindTools(tools)                  // Bind our custom tools to the model
+    }).bindTools(tools);
 
-    // Decision function: determines next step in the workflow
+    // Tool - Decision function: determines next step in the workflow
     function shouldContinue(state: typeof GraphState.State) {
-      const messages = state.messages                               // Get all messages
-      const lastMessage = messages[messages.length - 1] as AIMessage // Get the most recent message
+      const messages = state.messages; // Get all messages
+      const lastMessage = messages[messages.length - 1] as AIMessage; // Get the most recent message
 
       // If the AI wants to use tools, go to tools node; otherwise end
       if (lastMessage.tool_calls?.length) {
-        return "tools"  // Route to tool execution
+        return 'tools'; // Route to tool execution
       }
-      return "__end__"  // End the workflow
+      return '__end__'; // End the workflow
     }
 
-    // Function that calls the AI model with retry logic
+    // Tool - Function that calls the AI model with retry logic
     async function callModel(state: typeof GraphState.State) {
-      return retryWithBackoff(async () => { // Wrap in retry logic
+      return retryWithBackoff(async () => {
+        // Wrap in retry logic
         // Create a structured prompt template
         const prompt = ChatPromptTemplate.fromMessages([
           [
-            "system", // System message defines the AI's role and behavior
+            'system', // System message defines the AI's role and behavior
             `You are a helpful E-commerce Chatbot Agent for a clothing store.
 
-IMPORTANT: You have access to an item_lookup tool that searches the clothing inventory database. ALWAYS use this tool when customers ask about clothing items, even if the tool returns errors or empty results.
+             IMPORTANT: You have access to an item_lookup tool that searches the clothing inventory database. ALWAYS use this tool when customers ask about clothing items, even if the tool returns errors or empty results.
 
-When using the item_lookup tool:
-- If it returns results, provide helpful details about the clothing items
-- If it returns an error or no results, acknowledge this and offer to help in other ways
-- If the database appears to be empty, let the customer know that inventory might be being updated
+            When using the item_lookup tool:
+            - If it returns results, provide helpful details about the clothing items
+            - If it returns an error or no results, acknowledge this and offer to help in other ways
+            - If the database appears to be empty, let the customer know that inventory might be being updated
 
-Current time: {time}`,
+            Current time: {time}`,
           ],
-          new MessagesPlaceholder("messages"), // Placeholder for conversation history
-        ])
+          new MessagesPlaceholder('messages'), // Placeholder for conversation history
+        ]);
 
         // Fill in the prompt template with actual values
         const formattedPrompt = await prompt.formatMessages({
           time: new Date().toISOString(), // Current timestamp
-          messages: state.messages,       // All previous messages
-        })
+          messages: state.messages, // All previous messages
+        });
 
         // Call the AI model with the formatted prompt
-        const result = await model.invoke(formattedPrompt)
+        const result = await model.invoke(formattedPrompt);
         // Return new state with the AI's response added
-        return { messages: [result] }
-      })
+        return { messages: [result] };
+      });
     }
 
-    // Build the workflow graph
+    //Build the workflow graph
     const workflow = new StateGraph(GraphState)
-      .addNode("agent", callModel)                    // Add AI model node
-      .addNode("tools", toolNode)                     // Add tool execution node
-      .addEdge("__start__", "agent")                  // Start workflow at agent
-      .addConditionalEdges("agent", shouldContinue)   // Agent decides: tools or end
-      .addEdge("tools", "agent")                      // After tools, go back to agent
+      .addNode('agent', callModel) // Add AI model node
+      .addNode('tools', toolNode) // Add tool execution node
+      .addEdge('__start__', 'agent') // Start workflow at agent
+      .addConditionalEdges('agent', shouldContinue) // Agent decides: tools or end
+      .addEdge('tools', 'agent'); // After tools, go back to agent
+
+    // Get the database name from the database instance
+    const dbName = 'e-commerce_chat_db';
 
     // Initialize conversation state persistence
-    const checkpointer = new MongoDBSaver({ client, dbName })
+    const checkpointer = new MongoDBSaver({ client, dbName });
     // Compile the workflow with state saving
-    const app = workflow.compile({ checkpointer })
+    const app = workflow.compile({ checkpointer });
 
     // Execute the workflow
     const finalState = await app.invoke(
@@ -244,27 +113,29 @@ Current time: {time}`,
         messages: [new HumanMessage(query)], // Start with user's question
       },
       {
-        recursionLimit: 15,                   // Prevent infinite loops
-        configurable: { thread_id: thread_id } // Conversation thread identifier
+        recursionLimit: 15, // Prevent infinite loops
+        configurable: { thread_id: thread_id }, // Conversation thread identifier
       }
-    )
+    );
 
     // Extract the final response from the conversation
-    const response = finalState.messages[finalState.messages.length - 1].content
-    console.log("Agent response:", response)
+    const response = finalState.messages[finalState.messages.length - 1].content;
+    console.log('Agent response:', response);
 
-    return response // Return the AI's final response
-
+    return response; // Return the AI's final response
   } catch (error: any) {
     // Handle different types of errors with user-friendly messages
-    console.error("Error in callAgent:", error.message)
+    console.error('Error in callAgent:', error.message);
 
-    if (error.status === 429) { // Rate limit error
-      throw new Error("Service temporarily unavailable due to rate limits. Please try again in a minute.")
-    } else if (error.status === 401) { // Authentication error
-      throw new Error("Authentication failed. Please check your API configuration.")
-    } else { // Generic error
-      throw new Error(`Agent failed: ${error.message}`)
+    if (error.status === 429) {
+      // Rate limit error
+      throw new Error('Service temporarily unavailable due to rate limits. Please try again in a minute.');
+    } else if (error.status === 401) {
+      // Authentication error
+      throw new Error('Authentication failed. Please check your API configuration.');
+    } else {
+      // Generic error
+      throw new Error(`Agent failed: ${error.message}`);
     }
   }
 }

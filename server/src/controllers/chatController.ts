@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
-import {callAgent} from '../services/agent'
-import database from '../config/database'
+import { callAgent } from '../services/agent';
+import database from '../config/database';
 
 export class ChatController {
-   async getAllItems(req: Request, res: Response): Promise<void> {
-    const db = database.getDb()
+  async getAllItems(req: Request, res: Response): Promise<void> {
+    const db = database.getDb();
     try {
-      const items = await db.collection("items")
+      const items = await db
+        .collection('items')
         .find(
           {},
           {
@@ -28,8 +29,8 @@ export class ChatController {
         .toArray();
       res.json(items);
     } catch (error) {
-      console.error("Error fetching items:", error);
-      res.status(500).json({ error: "Internal server error" });
+      console.error('Error fetching items:', error);
+      res.status(500).json({ error: 'Internal server error' });
     }
   }
 
@@ -49,9 +50,10 @@ export class ChatController {
 
     try {
       // Call our AI agent with the message and new thread ID
-      //const response = await callAgent(message, threadId)
+      const response = await callAgent(message, threadId);
 
-      //res.json({ threadId, response })
+      res.json({ threadId, response });
+      //res.json({ threadId })
     } catch (error) {
       console.error(error);
 
@@ -69,9 +71,9 @@ export class ChatController {
       return;
     }
     try {
-        // const response = await callAgent(message, threadId)
-        // // Send AI response (no need to send threadId again since it's continuing)
-        // res.json({ response })
+      const response = await callAgent(message, threadId);
+      // Send AI response (no need to send threadId again since it's continuing)
+      res.json({ response });
     } catch (error) {
       // Log any errors that occur during agent execution
       console.error('Error in chat:', error);

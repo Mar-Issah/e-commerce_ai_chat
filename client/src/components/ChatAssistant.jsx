@@ -4,19 +4,20 @@ import { chatApi } from '../services/api.js';
 import ProductCard from './ProductCard.jsx';
 import './ChatAssistant.css';
 
-const ChatAssistant = ({ products }) => {
+const ChatAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
       id: 1,
       type: 'bot',
       content:
-        "Hi! I'm your shopping assistant. I can help you find products, answer questions about our inventory, and provide recommendations. What are you looking for today?",
+        "Hi! I'm your AI fashion assistant. I can help you find specific items, compare brands, check prices, or browse categories. What can I help you find today?",
       timestamp: new Date(),
     },
   ]);
   const [inputMessage, setInputMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
+  const [threadId, setThreadId] = useState(null);
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -49,15 +50,20 @@ const ChatAssistant = ({ products }) => {
     setIsTyping(true);
 
     try {
-      const response = await chatApi.processMessage(inputMessage, products);
+      const response = await chatApi.processMessage(inputMessage, threadId);
+
+      // If this is the first message and we get a threadId, store it
+      if (!threadId && response.threadId) {
+        setThreadId(response.threadId);
+      }
 
       const botMessage = {
         id: Date.now() + 1,
         type: 'bot',
-        content: response.message,
+        content: response.response || response.message,
         timestamp: new Date(),
-        products: response.type === 'product_suggestion' ? response.products : null,
       };
+      console.log(botMessage);
 
       setMessages((prev) => [...prev, botMessage]);
     } catch (error) {
@@ -109,22 +115,6 @@ const ChatAssistant = ({ products }) => {
             {messages.map((message) => (
               <div key={message.id} className={`message ${message.type}`}>
                 <div className='message-content'>{message.content}</div>
-                {message.products && (
-                  <div className='product-suggestions'>
-                    <h4>Recommended Products:</h4>
-                    <div className='suggested-products'>
-                      {message.products.slice(0, 3).map((product) => (
-                        <div key={product.item_id} className='suggested-product'>
-                          <img src={product.image} alt={product.item_name} className='suggested-product-image' />
-                          <div className='suggested-product-info'>
-                            <h5>{product.item_name}</h5>
-                            <p>${product.prices.sale_price}</p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
                 <div className='message-time'>
                   {message.timestamp.toLocaleTimeString([], {
                     hour: '2-digit',

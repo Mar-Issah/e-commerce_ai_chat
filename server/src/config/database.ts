@@ -27,6 +27,13 @@ class Database {
     }
   }
 
+  getClient(): MongoClient{
+     if (!this.client) {
+      throw new Error('Database not connected. Call connect() first.');
+    }
+    return this.client;
+  }
+
   getDb(): Db {
     if (!this.db) {
       throw new Error('Database not connected. Call connect() first.');

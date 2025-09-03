@@ -30,7 +30,7 @@ const Home = () => {
       setLoading(true);
       const response = await api.getAllProducts();
       if (response) {
-        console.log(response)
+        //console.log(response)
         setProducts(response);
         setFilteredProducts(response);
       } else {
@@ -55,7 +55,7 @@ const Home = () => {
       console.error('Error filtering products:', err);
     }
   };
-// When the user enters the query
+  // When the user enters the query
   const handleSearch = async (query, productsToSearch = products) => {
     try {
       const response = await api.searchProducts(query, productsToSearch);
@@ -101,7 +101,7 @@ const Home = () => {
         <div className='content-wrapper'>
           {/* Sidebar with filters */}
           <aside className='sidebar'>
-            <Filter selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} products ={products} />
+            <Filter selectedCategory={selectedCategory} onCategoryChange={handleCategoryChange} products={products} />
           </aside>
 
           {/* Main product grid */}
