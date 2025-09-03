@@ -49,10 +49,14 @@ export async function callAgent(query: string, thread_id: string) {
       const messages = state.messages; // Get all messages
       const lastMessage = messages[messages.length - 1] as AIMessage; // Get the most recent message
 
+      console.log('Last message tool_calls:', lastMessage.tool_calls);
+
       // If the AI wants to use tools, go to tools node; otherwise end
       if (lastMessage.tool_calls?.length) {
+        console.log('Routing to tools node');
         return 'tools'; // Route to tool execution
       }
+      console.log('Ending workflow - no tool calls');
       return '__end__'; // End the workflow
     }
 
@@ -66,14 +70,23 @@ export async function callAgent(query: string, thread_id: string) {
             'system', // System message defines the AI's role and behavior
             `You are a helpful E-commerce Chatbot Agent for a clothing store.
 
-             IMPORTANT: You have access to an item_lookup tool that searches the clothing inventory database. ALWAYS use this tool when customers ask about clothing items, even if the tool returns errors or empty results.
+             IMPORTANT: You have access to an item_lookup tool that searches the clothing inventory database.
 
-            When using the item_lookup tool:
-            - If it returns results, provide helpful details about the clothing items
-            - If it returns an error or no results, acknowledge this and offer to help in other ways
-            - If the database appears to be empty, let the customer know that inventory might be being updated
+             ALWAYS use the item_lookup tool when customers ask about:
+             - Specific clothing items (shirts, pants, dresses, etc.)
+             - Brands or manufacturers
+             - Categories of clothing
+             - Product recommendations
+             - Price inquiries
+             - Any clothing-related questions
 
-            Current time: {time}`,
+             When using the item_lookup tool:
+             - Use the customer's exact words or relevant keywords as the query
+             - If it returns results, provide helpful details about the clothing items
+             - If it returns an error or no results, acknowledge this and offer to help in other ways
+             - If the database appears to be empty, let the customer know that inventory might be being updated
+
+             Current time: {time}`,
           ],
           new MessagesPlaceholder('messages'), // Placeholder for conversation history
         ]);
@@ -120,7 +133,7 @@ export async function callAgent(query: string, thread_id: string) {
 
     // Extract the final response from the conversation
     const response = finalState.messages[finalState.messages.length - 1].content;
-    console.log('Agent response:', response);
+    // console.log('Agent response:', response);
 
     return response; // Return the AI's final response
   } catch (error: any) {

@@ -65,7 +65,7 @@ export async function retryWithBackoff<T>(fn: () => Promise<T>, maxRetries = 3):
 export async function performVectorSearch(query: string, n: number, collection: any): Promise<ItemLookupResult> {
   const vectorStore = new MongoDBAtlasVectorSearch(
     new OpenAIEmbeddings({
-      apiKey: process.env.OPENAI_API_KEY!,
+      apiKey: process.env.OPENAI_API_KEY,
       model: 'text-embedding-3-large',
     }),
     {
@@ -99,9 +99,13 @@ export async function performTextSearch(query: string, n: number, collection: an
 // Create the tool with proper JSON schema
 export const itemLookupTool = tool(
   async (input: unknown) => {
+    console.log('Tool received input:', JSON.stringify(input, null, 2));
+
     // Validate input using Zod
     const validatedInput = ItemLookupInputSchema.parse(input);
     const { query, n = 10 } = validatedInput;
+
+    console.log('Validated input - query:', query, 'n:', n);
 
     try {
       const collection = database.getDb().collection('items');
@@ -116,9 +120,11 @@ export const itemLookupTool = tool(
       }
 
       const vectorResult = await performVectorSearch(query, n, collection);
+      console.log(vectorResult);
       if (vectorResult.count > 0) return JSON.stringify(vectorResult);
 
       const textResult = await performTextSearch(query, n, collection);
+      console.log(textResult);
       return JSON.stringify(textResult);
     } catch (error: any) {
       return JSON.stringify({
