@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { MessageCircle, X, Send, Minimize2, Maximize2 } from 'lucide-react';
+import { MessageCircle, X, Send, Minimize2 } from 'lucide-react';
 import { chatApi } from '../services/api.js';
-import ProductCard from './ProductCard.jsx';
 import './ChatAssistant.css';
 
 const ChatAssistant = () => {

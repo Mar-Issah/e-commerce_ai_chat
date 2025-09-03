@@ -130,7 +130,7 @@ const Home = () => {
       </main>
 
       {/* Chat Assistant */}
-      <ChatAssistant products={products} />
+      <ChatAssistant />
     </div>
   );
 };
