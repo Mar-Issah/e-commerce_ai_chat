@@ -1,6 +1,5 @@
 import { app, port } from './app';
 import { database } from './config/database';
-import express, { Express } from 'express';
 
 async function startServer() {
   try {
