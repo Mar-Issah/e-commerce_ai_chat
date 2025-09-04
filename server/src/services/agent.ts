@@ -18,7 +18,8 @@ import { retryWithBackoff, itemLookupTool } from '../utils/helper';
 export async function callAgent(query: string, thread_id: string) {
   try {
     // Get database instance and collections
-    const db = database.getDb();
+    // const db = database.getDb(); wont on serverless platform
+    const db = await database.connect();
     const client = database.getClient();
     // const db = client.db("e-commerce_chat_db")
     const collection = db.collection('items');

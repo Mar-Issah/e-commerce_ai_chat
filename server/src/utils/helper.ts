@@ -108,7 +108,10 @@ export const itemLookupTool = tool(
     console.log('Validated input - query:', query, 'n:', n);
 
     try {
-      const collection = database.getDb().collection('items');
+     // When deploying in a persistent server env
+    // const = database.getDb()
+      const db = await database.connect();
+      const collection = db.collection('items');
       const totalCount = await collection.countDocuments();
 
       if (totalCount === 0) {
@@ -118,11 +121,11 @@ export const itemLookupTool = tool(
           count: 0,
         } as ItemLookupError);
       }
-
+      // First perform a vector search on Mongodb
       const vectorResult = await performVectorSearch(query, n, collection);
       console.log(vectorResult);
       if (vectorResult.count > 0) return JSON.stringify(vectorResult);
-
+      // If the Mongodb search doesnt return anything, then perform a text search
       const textResult = await performTextSearch(query, n, collection);
       console.log(textResult);
       return JSON.stringify(textResult);

@@ -15,12 +15,13 @@ class Database {
     this.client = new MongoClient(process.env.MONGODB_URI as string);
   }
 
-  async connect(): Promise<void> {
+  async connect(): Promise<Db> {
     try {
       await this.client.connect();
       this.db = this.client.db();
       //await this.db.command({ ping: 1 });
       console.log('✅ Successfully connected to MongoDB!');
+      return this.db
     } catch (error) {
       console.error('❌ Error connecting to MongoDB:', error);
       throw error;
