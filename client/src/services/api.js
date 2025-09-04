@@ -1,4 +1,4 @@
-const apiUrl = import.meta.env.VITE_SERVER_URL;
+const apiUrl = `${import.meta.env.VITE_SERVER_URL}/api`;
 
 // Simulate MongoDB collection operations
 export const api = {
