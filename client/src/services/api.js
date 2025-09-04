@@ -34,22 +34,43 @@ export const api = {
 // Chat API for product-related queries
 export const chatApi = {
   async processMessage(message, threadId = null) {
-    let response = {};
     try {
       const url = threadId ? `${apiUrl}/chat/${threadId}` : `${apiUrl}/chat`;
-      response = await fetch(url, {
-        method: 'POST', // Specify the method as POST
+
+      if (import.meta.env.DEV) {
+        console.log('📤 Sending message to:', url);
+        console.log('📤 Message:', message);
+        console.log('📤 Thread ID:', threadId);
+      }
+
+      const response = await fetch(url, {
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/json', // Indicate that the body is JSON
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ message }), // Convert the data object to a JSON string
+        body: JSON.stringify({ message }),
       });
 
-      const result = await response.json(); // Parse the response body as JSON
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const result = await response.json();
+
+      if (import.meta.env.DEV) {
+        console.log('📥 Response received:', result);
+      }
+
       return result;
     } catch (error) {
-      console.error('Error during fetch:', error);
-      throw error; // Re-throw the error for further handling if needed
+      console.error('❌ Chat API Error:', error);
+
+      // Provide more specific error messages
+      if (error.name === 'TypeError' && error.message.includes('fetch')) {
+        throw new Error('Unable to connect to the server. Please check your internet connection and try again.');
+      }
+
+      throw error;
     }
   },
 };
