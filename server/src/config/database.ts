@@ -21,6 +21,7 @@ class Database {
       this.db = this.client.db();
       //await this.db.command({ ping: 1 });
       console.log('✅ Successfully connected to MongoDB!');
+      // Return the db for reuse
       return this.db
     } catch (error) {
       console.error('❌ Error connecting to MongoDB:', error);
@@ -35,11 +36,8 @@ class Database {
     return this.client;
   }
 
-  getDb(): Db {
-    if (!this.db) {
-      throw new Error('Database not connected. Call connect() first.');
-    }
-    return this.db;
+  async getDb(): Promise<Db> {
+    return this.db ? this.db : await this.connect();
   }
 
   async close(): Promise<void> {

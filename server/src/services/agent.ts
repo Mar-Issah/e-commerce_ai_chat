@@ -1,27 +1,24 @@
-// Import required modules from LangChain ecosystem
 import { ChatOpenAI } from '@langchain/openai';
-import { AIMessage, BaseMessage, HumanMessage } from '@langchain/core/messages'; // Message types for conversations
+import { AIMessage, BaseMessage, HumanMessage } from '@langchain/core/messages';
 import {
   ChatPromptTemplate, // For creating structured prompts with placeholders
   MessagesPlaceholder, // Placeholder for dynamic message history
 } from '@langchain/core/prompts';
-import { StateGraph, Annotation } from '@langchain/langgraph'; // State-based workflow orchestration and  Type annotations for state management
+import { StateGraph, Annotation } from '@langchain/langgraph';
 import { ToolNode } from '@langchain/langgraph/prebuilt'; // Pre-built node for executing tools
 import { MongoDBSaver } from '@langchain/langgraph-checkpoint-mongodb'; // For saving conversation state
 import 'dotenv/config';
 import database from '../config/database';
 import { retryWithBackoff, itemLookupTool } from '../utils/helper';
 
-//const client = new MongoClient(process.env.MONGODB_URI as string)
 
 // Main function that creates and runs the AI agent
 export async function callAgent(query: string, thread_id: string) {
   try {
     // Get database instance and collections
-    // const db = database.getDb(); wont on serverless platform
-    const db = await database.connect();
+    const dbName = 'e-commerce_chat_db';
+    const db = await database.getDb();
     const client = database.getClient();
-    // const db = client.db("e-commerce_chat_db")
     const collection = db.collection('items');
 
     // Define the state structure for the agent workflow
@@ -34,30 +31,31 @@ export async function callAgent(query: string, thread_id: string) {
 
     // Array of all available tools (just one in this case)
     const tools = [itemLookupTool];
-    //Create a tool execution node for the workflow
+
     const toolNode = new ToolNode<typeof GraphState.State>(tools);
 
     // Initialize the AI model (Openai) and bind custom tools to the model
     const model = new ChatOpenAI({
-      model: 'gpt-4o-mini', //  Use Openai model
-      temperature: 0, // Deterministic responses (no randomness)
-      maxRetries: 0, // Disable built-in retries (we handle our own)
-      apiKey: process.env.OPENAI_API_KEY, // OPENAI API key from environment
+      model: 'gpt-4o-mini',
+      temperature: 0.5,
+      maxRetries: 0,
+      maxTokens: 200,
+      apiKey: process.env.OPENAI_API_KEY,
     }).bindTools(tools);
 
     // Tool - Decision function: determines next step in the workflow
     function shouldContinue(state: typeof GraphState.State) {
       const messages = state.messages; // Get all messages
-      const lastMessage = messages[messages.length - 1] as AIMessage; // Get the most recent message
+      const lastMessage = messages[messages.length - 1] as AIMessage;
 
-      console.log('Last message tool_calls:', lastMessage.tool_calls);
+      //console.log('Last message tool_calls:', lastMessage.tool_calls);
 
       // If the AI wants to use tools, go to tools node; otherwise end
       if (lastMessage.tool_calls?.length) {
-        console.log('Routing to tools node');
+        // console.log('Routing to tools node');
         return 'tools'; // Route to tool execution
       }
-      console.log('Ending workflow - no tool calls');
+      //console.log('Ending workflow - no tool calls');
       return '__end__'; // End the workflow
     }
 
@@ -65,37 +63,61 @@ export async function callAgent(query: string, thread_id: string) {
     async function callModel(state: typeof GraphState.State) {
       return retryWithBackoff(async () => {
         // Wrap in retry logic
-        // Create a structured prompt template
         const prompt = ChatPromptTemplate.fromMessages([
-          [
-            'system', // System message defines the AI's role and behavior
-            `You are a helpful E-commerce Chatbot Agent for a clothing store.
+          ['system',
+          `You are a helpful E-commerce Chatbot Agent for a clothing store.
 
-             IMPORTANT: You have access to an item_lookup tool that searches the clothing inventory database.
+          IMPORTANT: You have access to an item_lookup tool that searches the clothing inventory database.
 
-             ALWAYS use the item_lookup tool when customers ask about:
-             - Specific clothing items (shirts, pants, dresses, etc.)
-             - Brands or manufacturers
-             - Categories of clothing
-             - Product recommendations
-             - Price inquiries
-             - Any clothing-related questions
+          ALWAYS use the item_lookup tool when customers ask about:
+          - Specific clothing items (shirts, pants, dresses, hat, wallet, belt, sweater, shoes, gloves, scarf, cardigan, bag, shorts etc.)
+          - Brands or manufacturers
+          - Categories of clothing
+          - Product recommendations
+          - Price inquiries
+          - Any clothing-related questions
 
-             When using the item_lookup tool:
-             - Use the customer's exact words or relevant keywords as the query
-             - If it returns results, provide helpful details about the clothing items
-             - If it returns an error or no results, acknowledge this and offer to help in other ways
-             - If the database appears to be empty, let the customer know that inventory might be being updated
+          RESPONSE FORMAT RULES:
+          - Keep responses SHORT and conversational (2-4 sentences max)
+          - Show only 2-3 most relevant items initially
+          - Format: "Item Name by Brand - $Price"
+          - NO bold/markdown formatting
+          - NO bullet points or numbered lists
+          - NO detailed descriptions unless specifically asked
+          - Use natural conversation flow with line breaks for readability
+          - If customer wants more details, ask what specifically they'd like to know
+          - ALWAYS put each item starting with "- "or "1." on its own line with a line break before it.
 
-             Current time: {time}`,
+          VARIED RESPONSE EXAMPLES:
+          Enthusiastic: "Oh Sarah, I found some amazing winter pieces!
+          1. The North Face Winter Coat is $159.99 and it's gorgeous.
+          2. J.Crew Wool Peacoat for $199.99 is also stunning
+          Which one catches your eye?"
+
+          Casual: "Hey! So I found a couple solid options:
+          1. North Face has this winter coat for $159.99, and
+          2. J.Crew's got a wool peacoat at $199.99. Both pretty sweet deals.
+          Want me to tell you more about either?"
+
+          Professional: "Good afternoon, Michael. I've located two excellent winter coat options for you.
+          1. The North Face Winter Coat is available for $159.99,
+          2. J.Crew Wool Peacoat priced at $199.99.
+          Would you prefer details on either of these items?"
+
+          GREETING VARIATIONS - Mix these up:
+          - "Hi there!" / "Hey!" / "Hello!" / "Good [time of day]!"
+          - When they give name: "Nice to meet you, [Name]!" / "Hi [Name]!" / "Hey [Name]!"
+          - Follow-up: "What can I help you find?" / "What are you shopping for?" / "How can I help?"
+
+          Current time: {time}`,
           ],
           new MessagesPlaceholder('messages'), // Placeholder for conversation history
         ]);
 
         // Fill in the prompt template with actual values
         const formattedPrompt = await prompt.formatMessages({
-          time: new Date().toISOString(), // Current timestamp
-          messages: state.messages, // All previous messages
+          time: new Date().toISOString(),
+          messages: state.messages,
         });
 
         // Call the AI model with the formatted prompt
@@ -107,14 +129,11 @@ export async function callAgent(query: string, thread_id: string) {
 
     //Build the workflow graph
     const workflow = new StateGraph(GraphState)
-      .addNode('agent', callModel) // Add AI model node
-      .addNode('tools', toolNode) // Add tool execution node
-      .addEdge('__start__', 'agent') // Start workflow at agent
-      .addConditionalEdges('agent', shouldContinue) // Agent decides: tools or end
-      .addEdge('tools', 'agent'); // After tools, go back to agent
-
-    // Get the database name from the database instance
-    const dbName = 'e-commerce_chat_db';
+      .addNode('agent', callModel)
+      .addNode('tools', toolNode)
+      .addEdge('__start__', 'agent')
+      .addConditionalEdges('agent', shouldContinue)
+      .addEdge('tools', 'agent');
 
     // Initialize conversation state persistence
     const checkpointer = new MongoDBSaver({ client, dbName });
@@ -127,7 +146,7 @@ export async function callAgent(query: string, thread_id: string) {
         messages: [new HumanMessage(query)], // Start with user's question
       },
       {
-        recursionLimit: 15, // Prevent infinite loops
+        recursionLimit: 10, // Prevent infinite loops
         configurable: { thread_id: thread_id }, // Conversation thread identifier
       }
     );

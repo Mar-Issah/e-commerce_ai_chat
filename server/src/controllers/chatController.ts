@@ -4,9 +4,7 @@ import database from '../config/database';
 
 export class ChatController {
   async getAllItems(req: Request, res: Response): Promise<void> {
-    // When deploying in a persistent server env
-    // const = database.getDb()
-    const db = await database.connect();
+    const db = await database.getDb();
     try {
       const items = await db
         .collection('items')

@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { MessageCircle, X, Send, Minimize2 } from 'lucide-react';
 import { chatApi } from '../services/api.js';
 import './ChatAssistant.css';
+import ReactMarkdown from 'react-markdown';
 
 const ChatAssistant = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,7 +11,7 @@ const ChatAssistant = () => {
       id: 1,
       type: 'bot',
       content:
-        "Hi! I'm your AI fashion assistant. I can help you find specific items, compare brands, check prices, or browse categories. What can I help you find today?",
+        "Hi! I'm Marsiya your AI fashion assistant. I can help you find specific items, brands, check prices, or browse categories. What can I help you find today?",
       timestamp: new Date(),
     },
   ]);
@@ -113,7 +114,7 @@ const ChatAssistant = () => {
           <div className='chat-messages'>
             {messages.map((message) => (
               <div key={message.id} className={`message ${message.type}`}>
-                <div className='message-content'>{message.content}</div>
+                <ReactMarkdown>{message.content}</ReactMarkdown>
                 <div className='message-time'>
                   {message.timestamp.toLocaleTimeString([], {
                     hour: '2-digit',

@@ -37,11 +37,11 @@ export const chatApi = {
     try {
       const url = threadId ? `${apiUrl}/chat/${threadId}` : `${apiUrl}/chat`;
 
-      if (import.meta.env.DEV) {
-        console.log('📤 Sending message to:', url);
-        console.log('📤 Message:', message);
-        console.log('📤 Thread ID:', threadId);
-      }
+      // if (import.meta.env.DEV) {
+      //   console.log('📤 Sending message to:', url);
+      //   console.log('📤 Message:', message);
+      //   console.log('📤 Thread ID:', threadId);
+      // }
 
       const response = await fetch(url, {
         method: 'POST',
@@ -57,9 +57,9 @@ export const chatApi = {
 
       const result = await response.json();
 
-      if (import.meta.env.DEV) {
-        console.log('📥 Response received:', result);
-      }
+      // if (import.meta.env.DEV) {
+      //   console.log('📥 Response received:', result);
+      // }
 
       return result;
     } catch (error) {

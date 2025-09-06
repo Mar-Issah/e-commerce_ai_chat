@@ -52,7 +52,7 @@ export async function retryWithBackoff<T>(fn: () => Promise<T>, maxRetries = 3):
     } catch (error: any) {
       if (error.status === 429 && attempt < maxRetries) {
         const delay = Math.min(1000 * Math.pow(2, attempt), 30000);
-        console.log(`Rate limit hit. Retrying in ${delay / 1000} seconds...`);
+        //console.log(`Rate limit hit. Retrying in ${delay / 1000} seconds...`);
         await new Promise((resolve) => setTimeout(resolve, delay));
         continue;
       }
@@ -63,6 +63,7 @@ export async function retryWithBackoff<T>(fn: () => Promise<T>, maxRetries = 3):
 }
 
 export async function performVectorSearch(query: string, n: number, collection: any): Promise<ItemLookupResult> {
+try {
   const vectorStore = new MongoDBAtlasVectorSearch(
     new OpenAIEmbeddings({
       apiKey: process.env.OPENAI_API_KEY,
@@ -76,11 +77,17 @@ export async function performVectorSearch(query: string, n: number, collection: 
     }
   );
 
-  const result = await vectorStore.similaritySearchWithScore(query, n);
+  const result = await vectorStore.similaritySearch(query, n);
   return { results: result, searchType: 'vector', query, count: result.length };
+}  catch (error) {
+    console.error("Vector search error:", error);
+    // Return empty result instead of throwing, so text search can be attempted
+    return { results: [], searchType: 'vector', query, count: 0 };
+  }
 }
 
 export async function performTextSearch(query: string, n: number, collection: any): Promise<ItemLookupResult> {
+  try {
   const textResults = await collection
     .find({
       $or: [
@@ -88,12 +95,23 @@ export async function performTextSearch(query: string, n: number, collection: an
         { item_description: { $regex: query, $options: 'i' } },
         { categories: { $regex: query, $options: 'i' } },
         { embedding_text: { $regex: query, $options: 'i' } },
-      ],
-    })
+      ]},
+      {
+      projection: {
+          // Exclude the massive embedding field
+          embedding: 0,
+          image: 0,
+          metadata:0
+        }})
     .limit(n)
     .toArray();
+    console.log('Text search completed..:', textResults)
 
   return { results: textResults, searchType: 'text', query, count: textResults.length };
+}catch (error) {
+    console.error("Text search error:", error);
+    return { results: [], searchType: 'text', query, count: 0 };
+  }
 }
 
 // Create the tool with proper JSON schema
@@ -102,17 +120,15 @@ export const itemLookupTool = tool(
     console.log('Tool received input:', JSON.stringify(input, null, 2));
 
     // Validate input using Zod
-    const validatedInput = ItemLookupInputSchema.parse(input);
-    const { query, n = 10 } = validatedInput;
-
-    console.log('Validated input - query:', query, 'n:', n);
-
     try {
-     // When deploying in a persistent server env
-    // const = database.getDb()
-      const db = await database.connect();
+          const validatedInput = ItemLookupInputSchema.parse(input);
+    const { query, n = 3} = validatedInput;
+
+    // console.log('Validated input - query:', query, 'n:', n);
+      const db = await database.getDb();
       const collection = db.collection('items');
       const totalCount = await collection.countDocuments();
+      // console.log(totalCount)
 
       if (totalCount === 0) {
         return JSON.stringify({
@@ -121,19 +137,34 @@ export const itemLookupTool = tool(
           count: 0,
         } as ItemLookupError);
       }
-      // First perform a vector search on Mongodb
+  // Try vector search first
       const vectorResult = await performVectorSearch(query, n, collection);
-      console.log(vectorResult);
+      console.log('Vector search completed. Count:', vectorResult.count);
+
       if (vectorResult.count > 0) return JSON.stringify(vectorResult);
       // If the Mongodb search doesnt return anything, then perform a text search
       const textResult = await performTextSearch(query, n, collection);
-      console.log(textResult);
-      return JSON.stringify(textResult);
-    } catch (error: any) {
+
+
+      if (textResult.count > 0) {
+        // console.log('Text search successful, returning results');
+        return JSON.stringify(textResult);
+      }
+       //If  No results from either search
+      const noResultsError = {
+        error: 'No matching items found',
+        message: `No items found matching "${query}". Please try a different search term.`,
+        count: 0,
+        query
+      } as ItemLookupError;
+      console.log('No results found, returning:', noResultsError);
+      return JSON.stringify(noResultsError);
+    }
+    catch (error: any) {
       return JSON.stringify({
         error: 'Failed to search inventory',
         details: error.message,
-        query,
+        input,
       } as ItemLookupError);
     }
   },

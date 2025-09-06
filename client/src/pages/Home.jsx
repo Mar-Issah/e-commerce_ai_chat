@@ -86,7 +86,10 @@ const Home = () => {
       <div className='error-container'>
         <h2>Error</h2>
         <p>{error}</p>
-        <button onClick={fetchProducts} className='retry-btn'>
+        <button onClick={() => {
+    setError(null); // clear the previous error
+    fetchProducts();
+  }} className='retry-btn'>
           Try Again
         </button>
       </div>
