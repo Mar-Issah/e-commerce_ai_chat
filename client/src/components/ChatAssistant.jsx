@@ -114,7 +114,9 @@ const ChatAssistant = () => {
           <div className='chat-messages'>
             {messages.map((message) => (
               <div key={message.id} className={`message ${message.type}`}>
-                <ReactMarkdown>{message.content}</ReactMarkdown>
+               {/* <div className='message-content'>{message.content}</div> */}
+                <div className='message-content'><ReactMarkdown>{message.content}</ReactMarkdown></div>
+
                 <div className='message-time'>
                   {message.timestamp.toLocaleTimeString([], {
                     hour: '2-digit',
